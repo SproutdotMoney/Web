@@ -26,9 +26,6 @@ const GardenCard = ({
           />
           <header>
             <div className="flex flex-col items-center">
-              <h2 className="my-2 text-lg font-bold text-white crop capitalize">
-                {tokenName}
-              </h2>
               <h2 className="mt-2 mb-4 text-lg text-white font-bold crop">
                 {tokenGardenName}
               </h2>
