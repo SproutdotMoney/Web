@@ -40,7 +40,7 @@ const GardenCard = ({
           <div className="absolute harvest-button">
             <button className="btn" onClick={toggleModal}>
               <img src="/tractor-emoji.png" alt="harvest icon" />
-              <h2 className="text-sm font-bold text-green pl-1">Harvest</h2>
+              <h2 className="text-sm font-bold text-green pl-1">Open</h2>
             </button>
           </div>
         </div>
