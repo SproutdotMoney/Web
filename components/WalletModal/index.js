@@ -139,7 +139,6 @@ const WalletModal = () => {
             return (
               <li key={name} className="wallet-option bg-primary">
                 <button
-                  autoFocus={i === 0 ? true : false}
                   className={className(
                     "wallet-option-button focus:outline:none",
                     i === 0 ? "first" : null
@@ -147,16 +146,16 @@ const WalletModal = () => {
                   disabled={disabled}
                   onClick={handleConnect}
                 >
-                  <div className="mr-8">
+                  <div className="flex flex-col items-center w-full">
                     <p className="name crop text-sm font-bold mb-2">
                       {renderWalletName(name)}
                     </p>
                     <p className="description  text-xs crop">
                       {connected ? "Connected" : renderWalletDescription(name)}
                     </p>
-                  </div>
-                  <div className="wallet-option-button-icon">
-                    {renderWalletIcon(name)}
+                    <div className="wallet-option-button-icon">
+                      <img src={renderWalletIcon(name)} alt={"wallet icon"} />
+                    </div>
                   </div>
                 </button>
               </li>
@@ -176,7 +175,6 @@ const WalletModal = () => {
         }
 
         .wallet-option-button {
-          position: relative;
           overflow: hidden;
           outline: none;
           border-radius: var(--radius);
@@ -184,10 +182,10 @@ const WalletModal = () => {
           transition: all 0.2s ease 0s;
           display: inline-flex;
           color: var(--offwhite);
-          text-align: initial;
-          width: 100%;
+          width: 50%;
           text-decoration: none;
           padding: 16px;
+          height: 200px;
           margin: 0px;
         }
 
@@ -214,11 +212,14 @@ const WalletModal = () => {
           color: var(--offwhite);
         }
 
+        img {
+          height: 65px;
+          width: 65px;
+        }
+
         .wallet-option-button-icon {
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          right: 16px;
+          position: relative;
+          top: 40px;
         }
       `}</style>
     </Modal>

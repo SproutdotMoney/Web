@@ -22,7 +22,7 @@ export const WalletConnect = ({ size = 24 }) => (
   </svg>
 );
 
-export const MetaMask = ({ size = 24 }) => (
+export const MetaMask = ({ size = 64 }) => (
   <svg width={size} height={size} fill="none">
     <path
       d="M3.352 2.674l7.496 5.567-1.386-3.284-6.11-2.283z"
