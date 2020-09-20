@@ -39,12 +39,12 @@ const StakingModal = ({
   }, [erc20]);
 
   const sproutEarned = useAsync(async () => {
-    const earned = await contract.earned.call();
+    const earned = await contract.earned(account);
     return earned;
   }, [contract, poolAddress]);
 
   const amountStaked = useAsync(async () => {
-    const staked = await contract.balanceOf.call();
+    const staked = await contract.balanceOf(account);
     return staked;
   }, [contract, poolAddress]);
 

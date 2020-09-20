@@ -1,11 +1,14 @@
 import { useWeb3React } from "@web3-react/core";
 import className from "classnames";
+import { parseEther, formatEther } from "@ethersproject/units";
 import { useEffect, useState } from "react";
 import useEagerConnect from "../../hooks/useEagerConnect";
 import { connectorsByName, SUPPORTED_WALLETS } from "../../lib/connectors";
 import { isMetaMask, getEtherscanLink } from "../../lib/utils";
 import { Modal, ModalHeader } from "../Modal";
 import { useWalletModalOpen, useWalletModalToggle } from "./state";
+import useSproutContract from "../../hooks/useSproutContract";
+import { useAsync } from "react-use";
 
 const renderWalletName = (name) =>
   name === "INJECTED"
@@ -30,6 +33,8 @@ const renderWalletIcon = (name) =>
 
 const WalletModal = () => {
   const { connector, deactivate, error, activate, account } = useWeb3React();
+
+  const sproutContract = useSproutContract();
 
   const isOpen = useWalletModalOpen();
   const onDismiss = useWalletModalToggle();
@@ -57,6 +62,13 @@ const WalletModal = () => {
 
   const triedEager = useEagerConnect();
 
+  const seedBalance = useAsync(async () => {
+    if (!!account) {
+      const balance = await sproutContract.balanceOf(account);
+      return balance;
+    }
+  }, [account]);
+
   if (account)
     return (
       <Modal
@@ -71,7 +83,9 @@ const WalletModal = () => {
         <div className="my-4 sm:my-8">
           <div className="flex flex-col items-center">
             <img src="/sprout_logo.png" alt="sprout logo" className="mb-4" />
-            <p className="text-white text-xl mb-16">{`SEED Balance: 0.0000`}</p>
+            <p className="text-white text-xl mb-16">{`SEED Balance: ${
+              (seedBalance?.value && formatEther(seedBalance?.value)) || 0.0
+            }`}</p>
             <div className="mb-4">
               <a href={getEtherscanLink(1, account, "ADDRESS")}>
                 <button className="btn">
