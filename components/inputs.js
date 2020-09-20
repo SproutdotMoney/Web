@@ -20,7 +20,7 @@ export const Input = forwardRef(
               aria-invalid={Boolean(error) ? true : undefined}
               aria-describedby={Boolean(error) ? inputErrorId : undefined}
               ref={ref}
-              min={0.0000001}
+              min="none"
               disabled={disabled}
               {...rest}
             />
