@@ -5,8 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "export": "next export",
     "start": "next start",
-    "format": "prettier --write \"**/*.js\""
+    "deploy": "npm run build && npm run export"
   },
   "dependencies": {
     "@ethersproject/address": "^5.0.3",
