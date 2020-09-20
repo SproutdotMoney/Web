@@ -19,7 +19,7 @@ const StakingModal = ({
   setOpen,
 }) => {
   const addToast = useToast();
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit } = useForm();
   const contract = usePoolContract(poolAddress);
 
   const { account, library } = useWeb3React();
@@ -49,6 +49,15 @@ const StakingModal = ({
   }, [contract, poolAddress]);
 
   const hasSetAllowance = allowance?.value?._hex === "0x00" ? false : true;
+
+  const callExit = async () => {
+    try {
+      const { hash } = await contract.exit();
+      await getReceipt(hash, library);
+    } catch (e) {
+      addToast({ body: e.message, type: "error" });
+    }
+  };
 
   const callApprove = async () => {
     try {
@@ -95,7 +104,7 @@ const StakingModal = ({
               "0.0000"}
           </p>
           <p className="text-white text-md mt-1 mb-16">SEED Earned</p>
-          <button className="btn">
+          <button className="btn" onClick={callExit}>
             <p className="capitalize">HARVEST</p>
           </button>
         </div>
