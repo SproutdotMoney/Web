@@ -106,9 +106,11 @@ const StakingModal = ({
               "0.0000"}
           </p>
           <p className="text-white text-md mt-1 mb-16">{`${tokenName} Staked`}</p>
-          <p className="text-white text-md absolute erc-balance">{`Balance: ${
-            ercBalance?.value && formatEther(ercBalance?.value || "0.000")
-          }`}</p>
+          {account && (
+            <p className="text-white text-md absolute erc-balance">{`Balance: ${
+              ercBalance?.value && formatEther(ercBalance?.value || "0.000")
+            }`}</p>
+          )}
           {!hasSetAllowance ? (
             <button
               className="btn"
