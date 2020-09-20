@@ -6,7 +6,6 @@ const GardenCard = ({
   tokenGardenName,
   tokenIconPath,
   descriptionTop,
-  descriptionBottom,
   poolAddress,
   tokenAddress,
 }) => {
@@ -34,7 +33,6 @@ const GardenCard = ({
                 {tokenGardenName}
               </h2>
               <p className="text-md text-white">{descriptionTop}</p>
-              <p className="text-md text-white">{descriptionBottom}</p>
             </div>
           </header>
           <div className="absolute harvest-button">
