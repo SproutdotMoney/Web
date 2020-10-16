@@ -1,4 +1,5 @@
 export const ACTIVE_NETWORK = 1;
+export const INFURA_ID = "8ad4e6e54cd34b899e07f39f40da4e56";
 
 export const GARDEN_OPTIONS = [
   {
