@@ -1,6 +1,6 @@
 import { Line } from "rc-progress";
 import {getEtherscanLink} from "../lib/utils";
-import {formatEther, parseEther} from "@ethersproject/units";
+import {formatEther, parseEther, formatUnits} from "@ethersproject/units";
 import useSproutContract from "../hooks/useSproutContract";
 import {useWeb3React} from "@web3-react/core";
 import getReceipt from "../lib/getReceipt";
@@ -22,6 +22,7 @@ function Home() {
   const [votedad,setvotedad] = useState('0x0000000000000000000000000000000000000000');
   const [votet,setvotet] = useState(0);
   const [current_treasury,set_current_treasury] = useState('0x0000000000000000000000000000000000000000');
+  const [seed_balance, set_seed_balance] = useState(0)
 
   // function to vote for new treasury
   const callVote = async () => {
@@ -45,6 +46,12 @@ function Home() {
 
     // update the ui elements
     async function updateUIStates() {
+
+      const balance = await contract.balanceOf(account);
+
+      // set balance
+      set_seed_balance(balance);
+
       const voted_value = await contract.voted(account);
 
       // set voted
@@ -86,10 +93,30 @@ function Home() {
   }, [ account, voted, votedad, votet,current_treasury] );
 
 
+  function show_seed()
+  {
+    return (
+        <div className="py-4 w-full flex justify-center">
+          <div className="py-4 content-box w-full">
+            <p className="text-center text-lg font-bold text-white">
+              SEED Balance
+            </p>
+            <p className="text-center text-lg font-bold text-white">
+              {formatUnits(seed_balance, 4)}
+
+            </p>
+          </div>
+        </div>
+    )
+  }
+
   return (
 
     <div className="container">
       <div className="py-16 min-w-full flex flex-col justify-start items-center">
+
+        {account ? show_seed() : ""}
+
         <div className="py-4 w-full flex justify-center">
           <div className="py-4 content-box w-full">
             <p className="text-center text-lg font-bold text-white">
@@ -111,7 +138,7 @@ function Home() {
                 Your Votes
               </p>
 
-                <p className="text-center text-lg font-bold text-white">{  formatEther(voted) }</p>
+                <p className="text-center text-lg font-bold text-white">{  formatUnits(voted, 4) }</p>
             </div>
             <div className="py-4 pl-2 pr-2 content-box w-6/12">
               <p className="text-center text-lg font-bold text-white">
@@ -147,10 +174,10 @@ function Home() {
               <p className="text-center text-lg font-bold text-black hover:underline cursor-pointer pt-4 ">
                 <input className="text-center w-6/12 justify-center" type="text" onChange={e => setnewadd(e.target.value)}  />
               </p>
-            <p className="text-center text-lg font-bold text-white pt-4">
+            <p className="text-center text-lg font-bold pt-4">
               <button
-                  className="btn" onClick={callVote} style={{background: "#00ffad"}}>
-                <p className="capitalize">Vote for New Treasury</p>
+                  className="btn" onClick={callVote} style={{background: "#00ffad", text:"#202225"}}>
+                <p className="capitalize hover:text-white">Vote for New Treasury</p>
               </button>
             </p>
 
