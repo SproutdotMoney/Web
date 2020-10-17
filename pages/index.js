@@ -101,7 +101,7 @@ function Home() {
     const words = temp.split('.');
 
     //only 4 decimals
-    const slicer = words[1].slice(0,4);
+    const slicer = words[1].slice(0,8);
     const returner = words[0] + "." + slicer;
 
     return returner;
