@@ -92,6 +92,20 @@ function Home() {
     return () => clearInterval(timer);
   }, [ account, voted, votedad, votet,current_treasury] );
 
+  //get user friendly numbers from wei
+  //@input raw input from web3
+  //@output formated string with only 4 decimals after comma
+  function format_friendly(input)
+  {
+    const temp = formatEther(input);
+    const words = temp.split('.');
+
+    //only 4 decimals
+    const slicer = words[1].slice(0,4);
+    const returner = words[0] + "." + slicer;
+
+    return returner;
+  }
 
   function show_seed()
   {
@@ -102,7 +116,7 @@ function Home() {
               SEED Balance
             </p>
             <p className="text-center text-lg font-bold text-white">
-              {formatUnits(seed_balance, 4)}
+              {format_friendly(seed_balance)}
 
             </p>
           </div>
@@ -138,7 +152,7 @@ function Home() {
                 Your Votes
               </p>
 
-                <p className="text-center text-lg font-bold text-white">{  formatUnits(voted, 4) }</p>
+                <p className="text-center text-lg font-bold text-white">{  format_friendly(voted) }</p>
             </div>
             <div className="py-4 pl-2 pr-2 content-box w-6/12">
               <p className="text-center text-lg font-bold text-white">
