@@ -112,10 +112,10 @@ function Home() {
     return (
         <div className="py-4 w-full flex justify-center">
           <div className="py-4 content-box w-full">
-            <p className="text-center text-lg font-bold text-white">
+            <p className="text-center text-3xl font-bold text-white">
               SEED Balance
             </p>
-            <p className="text-center text-lg font-bold text-white">
+            <p className="text-center text-3xl font-bold text-white">
               {format_friendly(seed_balance)}
 
             </p>
