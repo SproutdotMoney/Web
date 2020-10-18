@@ -107,6 +107,12 @@
   }
 }
 
+@media screen and (max-width: 831px) {
+  .garden-list {
+    --columns: 0;
+  }
+}
+
 .measure {
   max-width: 30em;
 }
