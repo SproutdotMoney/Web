@@ -95,13 +95,12 @@ function Home() {
   //get user friendly numbers from wei
   //@input raw input from web3
   //@output formated string with only 4 decimals after comma
-  function format_friendly(input)
+  function format_friendly(input, decimals)
   {
     const temp = formatEther(input);
     const words = temp.split('.');
 
-    //only 4 decimals
-    const slicer = words[1].slice(0,8);
+    const slicer = words[1].slice(0,decimals);
     const returner = words[0] + "." + slicer;
 
     return returner;
@@ -116,7 +115,7 @@ function Home() {
               SEED Balance
             </p>
             <p className="text-center text-3xl font-bold text-white">
-              {format_friendly(seed_balance)}
+              {format_friendly(seed_balance, 8)}
 
             </p>
           </div>
@@ -158,7 +157,7 @@ function Home() {
               <p className="text-center text-lg font-bold text-white">
                 Voting For
               </p>
-              <p className="text-center text-lg font-bold text-white break-words" >{format_address(votedad)}</p>
+              <p className="text-center text-lg font-bold text-white break-words" >{format_address(votedad, 4)}</p>
             </div>
           </div>
         </div>

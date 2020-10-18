@@ -89,6 +89,12 @@ export const Modal = ({
           max-width: 900px;
         }
 
+        @media screen and (max-width: 831px) {
+          .mw-regular {
+            max-width: 350px;
+          }
+        }
+
         .mw-narrow {
           max-width: 480px;
         }
