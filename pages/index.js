@@ -100,7 +100,6 @@ function Home() {
     const temp = formatEther(input);
     const words = temp.split('.');
 
-    //only 4 decimals
     const slicer = words[1].slice(0,decimals);
     const returner = words[0] + "." + slicer;
 
