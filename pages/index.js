@@ -94,7 +94,7 @@ function Home() {
 
   //get user friendly numbers from wei
   //@input raw input from web3
-  //@output formated string with only 4 decimals after comma
+  //@output formated string with number of decimals after comma
   function format_friendly(input, decimals)
   {
     const temp = formatEther(input);
@@ -151,13 +151,13 @@ function Home() {
                 Your Votes
               </p>
 
-                <p className="text-center text-lg font-bold text-white">{  format_friendly(voted) }</p>
+                <p className="text-center text-lg font-bold text-white">{  format_friendly(voted, 4) }</p>
             </div>
             <div className="py-4 pl-2 pr-2 content-box w-6/12">
               <p className="text-center text-lg font-bold text-white">
                 Voting For
               </p>
-              <p className="text-center text-lg font-bold text-white break-words" >{format_address(votedad, 4)}</p>
+              <p className="text-center text-lg font-bold text-white break-words" >{format_address(votedad)}</p>
             </div>
           </div>
         </div>

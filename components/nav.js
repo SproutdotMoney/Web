@@ -21,14 +21,19 @@ const Nav = () => {
               <a>
                 <div className="flex flex-row items-center">
                   <img src="/sprout_logo.png" alt="sprout" />
-                  <h3 className="text-lg text-white">Sprout</h3>
+                  <h3 className="text-xs md:text-lg text-white">Sprout</h3>
                 </div>
               </a>
             </Link>
             <div className="flex flex-row items-center">
               <Link href="/gardens">
-                <a className="text-lg text-white p-6 hover:text-green cursor-pointer">
+                <a className="text-xs md:text-lg text-white p-2 md:p-6 hover:text-green cursor-pointer">
                   Gardens
+                </a>
+              </Link>
+              <Link href="/transferx">
+                <a className="text-xs md:text-lg text-white p-2 md:p-6 hover:text-green cursor-pointer">
+                  TransferX
                 </a>
               </Link>
               <button className="btn p-6" onClick={toggleWalletModal}>
