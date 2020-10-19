@@ -50,4 +50,20 @@ export const GARDEN_OPTIONS = [
     poolAddress: "0xF0EEbfD5546C5A7Cf22b27B03514cB453909372a",
     tokenAddress: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
   },
+  {
+    tokenName: "ETH",
+    tokenGardenName: "Charitable Bounties",
+    tokenIconPath: "green-heart_emoji.png",
+    descriptionTop: "Donate Ether, earn SEED",
+    poolAddress: "0xF0EEbfD5546C5A7Cf22b27B03514cB453909372a",
+    tokenAddress: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+  },
+  {
+    tokenName: "SEEDETH_UNILP",
+    tokenGardenName: "Liquid Gold",
+    tokenIconPath: "droplet_emoji.png",
+    descriptionTop: "Deposit SEEDETH_UNILP, earn SEED",
+    poolAddress: "0xF0EEbfD5546C5A7Cf22b27B03514cB453909372a",
+    tokenAddress: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+  },
 ];
