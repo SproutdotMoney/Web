@@ -12,7 +12,7 @@ function Home() {
     //getting the contract of sprout
     const contract = useSproutContract()
     const { account, library } = useWeb3React();
-    const [fields, setFields] = useState([{ to: null, amount: null, memo:null }]);
+    const [fields, setFields] = useState([{ to: null, amount: null, memo: "" }]);
 
     function handleChangeTo(i, event) {
         const values = [...fields];
@@ -34,7 +34,7 @@ function Home() {
 
     function handleAdd() {
         const values = [...fields];
-        values.push({ to: null, amount:null, memo:null });
+        values.push({ to: null, amount:null, memo: "" });
         setFields(values);
     }
 
@@ -53,14 +53,21 @@ function Home() {
 
         // get values dynamically from all input fields
         const values = [...fields];
-
         values.forEach(function(item, index, array) {
+
+            if(item.amount !== null && item.amount !== '') {
+                amounts.push((item.amount * 10 ** 18).toString());
+            }
+            else
+            {
+                amounts.push(item.amount);
+            }
+
             addresses.push(item.to);
-            amounts.push(item.amount);
             memos.push(item.memo);
         });
-
         try {
+
             const { hash } = await contract.transferx(addresses, amounts, memos);
             await getReceipt(hash, library);
         } catch (e) {
