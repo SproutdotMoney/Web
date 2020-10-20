@@ -7,6 +7,7 @@ import getReceipt from "../lib/getReceipt";
 import {addToast} from "../hooks/useToast";
 import { useEffect, useState } from 'react';
 import {BigNumber} from '@ethersproject/bignumber';
+import Web3 from 'web3';
 
 function Home() {
 
@@ -22,7 +23,6 @@ function Home() {
   const [voted, setvoted] = useState(0);
   const [votedad,setvotedad] = useState('0x0000000000000000000000000000000000000000');
   const [votet,setvotet] = useState(0);
-  const [max_votet,setmaxvotet] = useState(100);
   const [current_treasury,set_current_treasury] = useState('0x0000000000000000000000000000000000000000');
   const [seed_balance, set_seed_balance] = useState(0)
 
@@ -62,15 +62,15 @@ function Home() {
 
       // set votedad
       setvotedad(votedad_value);
-      const votet_value = await contract.votet(votedad_value);
+      const votet_value_bn = await contract.votet(votedad_value);
+      const votet_value = parseInt(Web3.utils.fromWei(votet_value_bn.toString(), 'ether'))
       const supply = await contract.totalSupply();
-      const returner_div = supply.mul(51).div(100);
-
-      //set max votet for progress bar
-      setmaxvotet(returner_div)
+      const returner_div_bn = supply.mul(51).div(100);
+      const returner_div = parseInt(Web3.utils.fromWei(returner_div_bn.toString(), 'ether'))
+      const progress_return = votet_value / returner_div * 100;
 
       // set votet
-      setvotet(votet_value);
+      setvotet(progress_return);
       const treasury = await contract.treasuryDAO();
 
       //set treasury (current)
@@ -170,7 +170,7 @@ function Home() {
 
         <div className="py-4 w-full">
           <Line
-            percent={[(votet) || 0 , (max_votet) || 100]}
+            percent={[(votet) || 0 , 100]}
             strokeWidth="4"
             trailWidth="4"
             strokeColor={[
