@@ -6,6 +6,7 @@ import {useWeb3React} from "@web3-react/core";
 import getReceipt from "../lib/getReceipt";
 import {addToast} from "../hooks/useToast";
 import { useEffect, useState } from 'react';
+import {BigNumber} from '@ethersproject/bignumber';
 
 function Home() {
 
@@ -56,7 +57,8 @@ function Home() {
         values.forEach(function(item, index, array) {
 
             if(item.amount !== null && item.amount !== '') {
-                amounts.push((item.amount * 10 ** 18).toString());
+                const temp_amount = BigNumber.from(10).pow(18).mul(item.amount);
+                amounts.push(temp_amount);
             }
             else
             {
