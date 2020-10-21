@@ -1,6 +1,5 @@
 import { Line } from "rc-progress";
-import {getEtherscanLink} from "../lib/utils";
-import {formatEther} from "@ethersproject/units";
+import {getEtherscanLink ,format_friendly} from "../lib/utils";
 import useSproutContract from "../hooks/useSproutContract";
 import {useWeb3React} from "@web3-react/core";
 import getReceipt from "../lib/getReceipt";
@@ -96,20 +95,6 @@ function Home() {
     // clearing interval
     return () => clearInterval(timer);
   }, [ account, voted, votedad, votet,current_treasury] );
-
-  //get user friendly numbers from wei
-  //@input raw input from web3
-  //@output formated string with number of decimals after comma
-  function format_friendly(input, decimals)
-  {
-    const temp = formatEther(input);
-    const words = temp.split('.');
-
-    const slicer = words[1].slice(0,decimals);
-    const returner = words[0] + "." + slicer;
-
-    return returner;
-  }
 
   function show_seed()
   {
