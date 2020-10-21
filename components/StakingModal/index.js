@@ -51,8 +51,7 @@ const StakingModal = ({
 
     if (tokenName == 'ETH')
     {
-      const donation_address = donation_contract.address;
-      const rate = await sprout_contract.balanceOf(donation_address);
+      const rate = await donation_contract.tbal();
       return rate;
     }
   }, [donation_contract]);
