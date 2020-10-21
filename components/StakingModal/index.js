@@ -257,7 +257,7 @@ const StakingModal = ({
               <div className="flex flex-col items-center content-box py-12 px-4">
                 <img src={`/${tokenIconPath}`} alt={`${tokenName} icon`} />
                 <p className="text-white text-lg mt-2">
-                  {(amountStaked?.value && formatEther(amountStaked?.value.pow(2))) ||
+                  {(amountStaked?.value && formatEther(amountStaked?.value)) ||
                   "0.0000"}
                 </p>
                 <p className="text-white text-md mt-1 mb-16">{`${tokenName} Staked`}</p>
