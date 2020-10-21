@@ -186,7 +186,7 @@ const StakingModal = ({
                             id="donatedAmount"
                             name="donatedAmount"
                             type="number"
-                            step="0.000000000001"
+                            step="0.000000000000000001"
                             required
                         />
                       </div>
@@ -281,6 +281,7 @@ const StakingModal = ({
                             id="stakedAmount"
                             name="stakedAmount"
                             type="number"
+                            step="0.000000000000000001"
                             required
                         />
                         <button className="btn">
