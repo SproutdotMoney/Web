@@ -2,6 +2,8 @@ import { Modal, ModalHeader } from "../Modal";
 import { parseEther, formatEther } from "@ethersproject/units";
 import { useForm } from "react-hook-form";
 import usePoolContract from "../../hooks/usePoolContract";
+import useDonationContract from "../../hooks/useDonationContract";
+import {default as useSproutContract}  from "../../hooks/useSproutContract";
 import useErc20Contract from "../../hooks/useErc20Contract";
 import { useAsync } from "react-use";
 import { useWeb3React } from "@web3-react/core";
@@ -9,6 +11,8 @@ import { BigNumber } from "@ethersproject/bignumber";
 import getReceipt from "../../lib/getReceipt";
 import useToast from "../../hooks/useToast";
 import { Input } from "../../components/inputs";
+import {format_friendly} from "../../lib/utils";
+import {ACTIVE_NETWORK} from  "../../constants"
 
 const StakingModal = ({
   poolAddress,
@@ -22,6 +26,10 @@ const StakingModal = ({
   const { register, handleSubmit } = useForm();
   const contract = usePoolContract(poolAddress);
 
+  // get donation contract and sprout contract
+  const donation_contract = useDonationContract(poolAddress);
+  const sprout_contract = useSproutContract();
+
   const { account, library } = useWeb3React();
 
   const maxAllowance = BigNumber.from(2).pow(256).sub(1);
@@ -32,6 +40,22 @@ const StakingModal = ({
     const allowance = await erc20.allowance(account, poolAddress);
     return allowance;
   }, [erc20]);
+
+  const seedethrate = useAsync(async () => {
+    const rate = await donation_contract.getamout(BigNumber.from(10).pow(17));
+    return rate;
+  }, [donation_contract]);
+
+  // only relevant for donation (ETH token)
+  const donationremaining = useAsync(async () => {
+
+    if (tokenName == 'ETH')
+    {
+      const donation_address = donation_contract.address;
+      const rate = await sprout_contract.balanceOf(donation_address);
+      return rate;
+    }
+  }, [donation_contract]);
 
   const ercBalance = useAsync(async () => {
     const balance = await erc20.balanceOf(account);
@@ -86,15 +110,31 @@ const StakingModal = ({
 
   //donate eth to donation address
   const callDonate = async (values) => {
+
     try {
       if (!values.donatedAmount) {
         throw new Error("Value must be greater than 0");
       }
 
       const stakeInWei = parseEther(values?.donatedAmount);
+      const donation_address = donation_contract.address;
 
-      const { hash } = await contract.stake(stakeInWei);
+      const trans_obj = {
+        // Required unless deploying a contract (in which case omit)
+        to: donation_address,  // the target address or ENS name
 
+        // These are optional/meaningless for call and estimateGas
+        nonce: 0,           // the transaction nonce
+        gasLimit: 0,        // the maximum gas this transaction may spend
+        //gasPrice: 0,        // the price (in wei) per unit of gas
+
+        // These are always optional (but for call, data is usually specified)
+        value: stakeInWei,           // the amount (in wei) this transaction is sending
+        chainId: ACTIVE_NETWORK          // the network ID; usually added by a signer
+      }
+
+      const signer = library.getSigner(account);
+      const {hash} = await signer.sendTransaction(trans_obj);
       await getReceipt(hash, library);
     } catch (e) {
       addToast({ body: e.message, type: "error" });
@@ -122,11 +162,15 @@ const StakingModal = ({
               <div className="flex flex-col items-center content-box py-12">
                 <p className="text-white text-xl mt-2">Donation Rate</p>
                 <p className="text-white text-lg mt-2">
-                  {(sproutEarned?.value && formatEther(sproutEarned?.value)) ||
-                  "0.0000"} Seed /ETH
+                  {(seedethrate.value && format_friendly(seedethrate.value, 4)) ||
+                  "0.0000"}
+                </p>
+                <p className="text-white text-lg mt-2">
+                  SEED / ETH
                 </p>
                 <p className="text-white text-xl mt-6">SEED remaining</p>
-                <p className="text-white text-md mt-1 mb-16">value</p>
+                <p className="text-white text-lg mt-1 mb-16">{(donationremaining.value && format_friendly(donationremaining.value, 4)) ||
+                "0.0000"}</p>
 
               </div>
               <div className="flex flex-col items-center content-box py-12 px-4">
@@ -142,6 +186,7 @@ const StakingModal = ({
                             id="donatedAmount"
                             name="donatedAmount"
                             type="number"
+                            step="0.000000000001"
                             required
                         />
                       </div>
