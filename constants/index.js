@@ -15,7 +15,7 @@ export const GARDEN_OPTIONS = [
     tokenGardenName: "Magical Springs",
     tokenIconPath: "unicorn-emoji.png",
     descriptionTop: "Deposit UNI, earn SEED",
-    poolAddress: "0xF293b4CDC0f7B76FC8F7803b7eFB03C965d5161b",
+    poolAddress: "0xf457e258ed7f86d27760cbb47ba31af0aa85b1b2",
     tokenAddress: "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
   },
   {
@@ -47,15 +47,16 @@ export const GARDEN_OPTIONS = [
     tokenGardenName: "Sunny Wether",
     tokenIconPath: "sun-emoji.png",
     descriptionTop: "Deposit WETH, earn SEED",
-    poolAddress: "0xF0EEbfD5546C5A7Cf22b27B03514cB453909372a",
+    poolAddress: "0x434037006b84b9d1c37b0c89caa33c225a4ab8f7",
     tokenAddress: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
   },
+    // dont use the tokenAddress here since we make an extra modal for donation
   {
     tokenName: "ETH",
     tokenGardenName: "Charitable Bounties",
     tokenIconPath: "green-heart_emoji.png",
     descriptionTop: "Donate Ether, earn SEED",
-    poolAddress: "0xF0EEbfD5546C5A7Cf22b27B03514cB453909372a",
+    poolAddress: "0x511131bf688f94d883628348b0eede12fbc61992",
     tokenAddress: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
   },
   {
