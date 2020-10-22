@@ -1,205 +1,201 @@
-import { Line } from "rc-progress";
-import {getEtherscanLink ,format_friendly} from "../lib/utils";
+import {Line} from "rc-progress";
+import {getEtherscanLink, format_friendly} from "../lib/utils";
 import useSproutContract from "../hooks/useSproutContract";
 import {useWeb3React} from "@web3-react/core";
 import getReceipt from "../lib/getReceipt";
 import {addToast} from "../hooks/useToast";
-import { useEffect, useState } from 'react';
-import {BigNumber} from '@ethersproject/bignumber';
+import {useEffect, useState} from 'react';
 import Web3 from 'web3';
 
 function Home() {
 
-  //getting the contract of sprout
-  const contract = useSproutContract()
-  const { account, library } = useWeb3React();
+    //getting the contract of sprout
+    const contract = useSproutContract()
+    const {account, library} = useWeb3React();
 
-  //the new treasury dao address for proposal (user text field)
-  const [newadd, setnewadd] = useState('');
+    //the new treasury dao address for proposal (user text field)
+    const [newadd, setnewadd] = useState('');
 
-  //set constants for later displaying
-  const [first_loop, set_first_loop] = useState(0);
-  const [voted, setvoted] = useState(0);
-  const [votedad,setvotedad] = useState('0x0000000000000000000000000000000000000000');
-  const [votet,setvotet] = useState(0);
-  const [current_treasury,set_current_treasury] = useState('0x0000000000000000000000000000000000000000');
-  const [seed_balance, set_seed_balance] = useState(0)
+    //set constants for later displaying
+    const [first_loop, set_first_loop] = useState(0);
+    const [voted, setvoted] = useState(0);
+    const [votedad, setvotedad] = useState('0x0000000000000000000000000000000000000000');
+    const [votet, setvotet] = useState(0);
+    const [current_treasury, set_current_treasury] = useState('0x0000000000000000000000000000000000000000');
+    const [seed_balance, set_seed_balance] = useState(0)
 
-  // function to vote for new treasury
-  const callVote = async () => {
-    try {
-      const { hash } = await contract.updateVote(newadd);
-      await getReceipt(hash, library);
-    } catch (e) {
-      addToast({ body: e.message, type: "error" });
-    }
-  };
+    // function to vote for new treasury
+    const callVote = async () => {
+        try {
+            const {hash} = await contract.updateVote(newadd);
+            await getReceipt(hash, library);
+        } catch (e) {
+            addToast({body: e.message, type: "error"});
+        }
+    };
 
-  //format addresses in ui
-  function format_address(address)
-  {
-    const new_address = address.substring(0,5) + '...' + address.slice(-3)
-    return new_address;
-  }
-
-  // effect hook for updating data
-  useEffect(() => {
-
-    // update the ui elements
-    async function updateUIStates() {
-
-      const balance = await contract.balanceOf(account);
-
-      // set balance
-      set_seed_balance(balance);
-
-      const voted_value = await contract.voted(account);
-
-      // set voted
-      setvoted({...voted_value});
-      const votedad_value = await contract.votedad(account);
-
-      // set votedad
-      setvotedad(votedad_value);
-      const votet_value_bn = await contract.votet(votedad_value);
-      const votet_value = parseInt(Web3.utils.fromWei(votet_value_bn.toString(), 'ether'))
-      const supply = await contract.totalSupply();
-      const returner_div_bn = supply.mul(51).div(100);
-      const returner_div = parseInt(Web3.utils.fromWei(returner_div_bn.toString(), 'ether'))
-      const progress_return = votet_value / returner_div * 100;
-
-      // set votet
-      setvotet(progress_return);
-      const treasury = await contract.treasuryDAO();
-
-      //set treasury (current)
-      set_current_treasury(treasury);
+    //format addresses in ui
+    function format_address(address) {
+        const new_address = address.substring(0, 5) + '...' + address.slice(-3)
+        return new_address;
     }
 
-    // fix for updating after wallet login
-    if (account && first_loop == 0)
-    {
-      set_first_loop(1);
-      updateUIStates();
+    // effect hook for updating data
+    useEffect(() => {
+
+        // update the ui elements
+        async function updateUIStates() {
+
+            const balance = await contract.balanceOf(account);
+
+            // set balance
+            set_seed_balance(balance);
+
+            const voted_value = await contract.voted(account);
+
+            // set voted
+            setvoted({...voted_value});
+            const votedad_value = await contract.votedad(account);
+
+            // set votedad
+            setvotedad(votedad_value);
+            const votet_value_bn = await contract.votet(votedad_value);
+            const votet_value = parseInt(Web3.utils.fromWei(votet_value_bn.toString(), 'ether'))
+            const supply = await contract.totalSupply();
+            const returner_div_bn = supply.mul(51).div(100);
+            const returner_div = parseInt(Web3.utils.fromWei(returner_div_bn.toString(), 'ether'))
+            const progress_return = votet_value / returner_div * 100;
+
+            // set votet
+            setvotet(progress_return);
+            const treasury = await contract.treasuryDAO();
+
+            //set treasury (current)
+            set_current_treasury(treasury);
+        }
+
+        // fix for updating after wallet login
+        if (account && first_loop == 0) {
+            set_first_loop(1);
+            updateUIStates();
+        }
+
+        // schedule every 15 sec refresh
+        const timer = setInterval(() => {
+            if (account) {
+                updateUIStates()
+            }
+
+        }, 15000);
+
+        // clearing interval
+        return () => clearInterval(timer);
+    }, [account, voted, votedad, votet, current_treasury]);
+
+    function show_seed() {
+        return (
+            <div className="py-4 w-full flex justify-center">
+                <div className="py-4 content-box w-full">
+                    <p className="text-center text-3xl font-bold text-white">
+                        SEED Balance
+                    </p>
+                    <p className="text-center text-3xl font-bold text-white">
+                        {format_friendly(seed_balance, 8)}
+
+                    </p>
+                </div>
+            </div>
+        )
     }
 
-    // schedule every 15 sec refresh
-    const timer = setInterval(() => {
-       if (account)
-       {
-         updateUIStates()
-       }
-
-    }, 15000);
-
-    // clearing interval
-    return () => clearInterval(timer);
-  }, [ account, voted, votedad, votet,current_treasury] );
-
-  function show_seed()
-  {
     return (
-        <div className="py-4 w-full flex justify-center">
-          <div className="py-4 content-box w-full">
-            <p className="text-center text-3xl font-bold text-white">
-              SEED Balance
-            </p>
-            <p className="text-center text-3xl font-bold text-white">
-              {format_friendly(seed_balance, 8)}
 
-            </p>
-          </div>
-        </div>
-    )
-  }
+        <div className="container">
+            <div className="py-16 min-w-full flex flex-col justify-start items-center">
 
-  return (
+                {account ? show_seed() : ""}
 
-    <div className="container">
-      <div className="py-16 min-w-full flex flex-col justify-start items-center">
+                <div className="py-4 w-full flex justify-center">
+                    <div className="py-4 content-box w-full">
+                        <p className="text-center text-lg font-bold text-white">
+                            Current Treasury Address
+                        </p>
+                        <a href={getEtherscanLink(1, current_treasury, "ADDRESS")} target="_blank">
+                            <p className="text-center text-lg font-bold text-white hover:text-green hover:underline cursor-pointer">
+                                {format_address(current_treasury)}
 
-        {account ? show_seed() : ""}
+                            </p>
+                        </a>
+                    </div>
+                </div>
 
-        <div className="py-4 w-full flex justify-center">
-          <div className="py-4 content-box w-full">
-            <p className="text-center text-lg font-bold text-white">
-              Current Treasury Address
-            </p>
-            <a href={getEtherscanLink(1,current_treasury,"ADDRESS")} target="_blank">
-              <p className="text-center text-lg font-bold text-white hover:text-green hover:underline cursor-pointer">
-                {format_address(current_treasury)}
+                <div className="py-4 w-full">
+                    <div className="flex flex-row w-full justify-center">
+                        <div className="py-4 pr-2 pl-2 content-box w-6/12">
+                            <p className="text-center text-lg font-bold text-white">
+                                Your Votes
+                            </p>
 
-              </p>
-            </a>
-          </div>
-        </div>
+                            <p className="text-center text-lg font-bold text-white">{format_friendly(voted, 4)}</p>
+                        </div>
+                        <div className="py-4 pl-2 pr-2 content-box w-6/12">
+                            <p className="text-center text-lg font-bold text-white">
+                                Voting For
+                            </p>
+                            <p className="text-center text-lg font-bold text-white break-words">{format_address(votedad)}</p>
+                        </div>
+                    </div>
+                </div>
 
-        <div className="py-4 w-full">
-          <div className="flex flex-row w-full justify-center">
-            <div className="py-4 pr-2 pl-2 content-box w-6/12">
-              <p className="text-center text-lg font-bold text-white">
-                Your Votes
-              </p>
 
-                <p className="text-center text-lg font-bold text-white">{  format_friendly(voted, 4) }</p>
+                <div className="py-4 w-full">
+                    <Line
+                        percent={[(votet) || 0, 100]}
+                        strokeWidth="4"
+                        trailWidth="4"
+                        strokeColor={[
+                            "#00ffad",
+                            {
+                                "100%": "#ffffff",
+                                "0%": "#00ffad",
+                            },
+                        ]}
+                        strokeLinecap="round"
+                    />
+                </div>
+
+                <div className="py-4 w-full flex justify-center">
+                    <div className="py-4 content-box w-full">
+                        <p className="text-center text-lg font-bold text-white">
+                            Vote for New Treasury Address
+                        </p>
+                        <p className="text-center text-lg font-bold text-black hover:underline cursor-pointer pt-4 ">
+                            <input className="text-center w-6/12 justify-center" type="text"
+                                   onChange={e => setnewadd(e.target.value)}/>
+                        </p>
+                        <p className="text-center text-lg font-bold pt-4">
+                            <button
+                                className="btn" onClick={callVote} style={{background: "#00ffad", text: "#202225"}}>
+                                <p className="capitalize hover:text-white">Vote for New Treasury</p>
+                            </button>
+                        </p>
+
+                    </div>
+
+                </div>
             </div>
-            <div className="py-4 pl-2 pr-2 content-box w-6/12">
-              <p className="text-center text-lg font-bold text-white">
-                Voting For
-              </p>
-              <p className="text-center text-lg font-bold text-white break-words" >{format_address(votedad)}</p>
-            </div>
-          </div>
-        </div>
 
 
-        <div className="py-4 w-full">
-          <Line
-            percent={[(votet) || 0 , 100]}
-            strokeWidth="4"
-            trailWidth="4"
-            strokeColor={[
-              "#00ffad",
-              {
-                "100%": "#ffffff",
-                "0%": "#00ffad",
-              },
-            ]}
-            strokeLinecap="round"
-          />
-        </div>
-
-        <div className="py-4 w-full flex justify-center">
-          <div className="py-4 content-box w-full">
-            <p className="text-center text-lg font-bold text-white">
-              Vote for New Treasury Address
-            </p>
-              <p className="text-center text-lg font-bold text-black hover:underline cursor-pointer pt-4 ">
-                <input className="text-center w-6/12 justify-center" type="text" onChange={e => setnewadd(e.target.value)}  />
-              </p>
-            <p className="text-center text-lg font-bold pt-4">
-              <button
-                  className="btn" onClick={callVote} style={{background: "#00ffad", text:"#202225"}}>
-                <p className="capitalize hover:text-white">Vote for New Treasury</p>
-              </button>
-            </p>
-
-          </div>
-
-        </div>
-      </div>
-
-
-
-      <style jsx>
-        {`
+            <style jsx>
+                {`
           .content-box {
             border: 1px solid var(--offwhite);
             border-radius: var(--radius);
           }
         `}
-      </style>
-    </div>
-  );
+            </style>
+        </div>
+    );
 }
+
 export default Home
