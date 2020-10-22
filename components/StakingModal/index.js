@@ -42,7 +42,7 @@ const StakingModal = ({
   }, [erc20]);
 
   const seedethrate = useAsync(async () => {
-    const rate = await donation_contract.getamout(BigNumber.from(10).pow(17));
+    const rate = await donation_contract.getamout(BigNumber.from(10).pow(18));
     return rate;
   }, [donation_contract]);
 
@@ -168,9 +168,13 @@ const StakingModal = ({
                   SEED / ETH
                 </p>
                 <p className="text-white text-xl mt-6">SEED remaining</p>
-                <p className="text-white text-lg mt-1 mb-16">{(donationremaining.value && format_friendly(donationremaining.value, 4)) ||
+                <p className="text-white text-lg mt-1">{(donationremaining.value && format_friendly(donationremaining.value, 4)) ||
                 "0.0000"}</p>
-
+                <p className="text-white text-center text-xl mt-6">DONATIONS to</p>
+                <p className="text-white text-center text-md mt-1">350.org</p>
+                <p className="text-white text-center text-md mt-1">Gitcoin</p>
+                <p className="text-white text-center text-md mt-1">Ethereum Foundation</p>
+                <p className="text-white text-center text-md mt-1">Andreas Antonopolous</p>
               </div>
               <div className="flex flex-col items-center content-box py-12 px-4">
                 <img src={`/${tokenIconPath}`} alt={`${tokenName} icon`} />

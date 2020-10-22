@@ -28,7 +28,7 @@ const renderWalletIcon = (name) =>
   name === "INJECTED"
     ? isMetaMask
       ? SUPPORTED_WALLETS.METAMASK.icon
-      : null
+      : SUPPORTED_WALLETS.INJECTED.icon
     : SUPPORTED_WALLETS[name].icon;
 
 const WalletModal = () => {
