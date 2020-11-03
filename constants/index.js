@@ -16,7 +16,7 @@ export const GARDEN_OPTIONS = [
     tokenIconPath: "unicorn-emoji.png",
     descriptionTop: "Deposit UNI, earn SEED",
     poolAddress: "0xa1fdacfdc1c32facd47173e54c8285fa2d813b79",
-    tokenAddress: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    tokenAddress: "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
   },
   {
     tokenName: "LEND",
