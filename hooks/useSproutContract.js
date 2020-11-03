@@ -2,6 +2,6 @@ import sproutAbi from "../constants/abi/sproutContract.json";
 import useContract from "./useContract";
 
 export default function usePoolContract() {
-  return useContract("0xf14c2a8a54ff392d7a86f19859e6c301d00c33c2",sproutAbi)
+  return useContract("0x9c539380C2c1c88E25dEB6275b24447D6059F7E8",sproutAbi)
 }
 
