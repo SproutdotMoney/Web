@@ -13,6 +13,7 @@ import useToast from "../../hooks/useToast";
 import { Input } from "../../components/inputs";
 import {format_friendly} from "../../lib/utils";
 import {ACTIVE_NETWORK} from  "../../constants"
+import {useEffect, useState} from "react";
 
 const StakingModal = ({
   poolAddress,
@@ -41,37 +42,63 @@ const StakingModal = ({
     return allowance;
   }, [erc20]);
 
-  const seedethrate = useAsync(async () => {
-    const rate = await donation_contract.getamout(BigNumber.from(10).pow(18));
-    return rate;
-  }, [donation_contract]);
-
-  // only relevant for donation (ETH token)
-  const donationremaining = useAsync(async () => {
-
-    if (tokenName == 'ETH')
-    {
-      const rate = await donation_contract.tbal();
-      return rate;
-    }
-  }, [donation_contract]);
-
-  const ercBalance = useAsync(async () => {
-    const balance = await erc20.balanceOf(account);
-    return balance;
-  }, [erc20]);
-
-  const sproutEarned = useAsync(async () => {
-    const earned = await contract.earned(account);
-    return earned;
-  }, [contract, poolAddress]);
-
-  const amountStaked = useAsync(async () => {
-    const staked = await contract.balanceOf(account);
-    return staked;
-  }, [contract, poolAddress]);
+  //set constants for later displaying
+  const [first_loop, set_first_loop] = useState(0);
+  const [seedethrate, set_seedethrate] = useState(0);
+  const [donationremaining, set_donationremaining] = useState(0);
+  const [ercBalance, set_ercBalance] = useState(0);
+  const [sproutEarned, set_sproutEarned] = useState(0);
+  const [amountStaked, set_amountStaked] = useState(0);
 
   const hasSetAllowance = allowance?.value?._hex === "0x00" ? false : true;
+
+  // effect hook for updating data
+  useEffect(() => {
+
+    // update the ui elements
+    async function updateUIStates() {
+
+      if (tokenName == 'ETH')
+      {
+        const rate = await donation_contract.getamout(BigNumber.from(10).pow(18));
+        set_seedethrate(rate);
+        const remain = await donation_contract.tbal();
+        set_donationremaining(remain);
+      }
+      else
+      {
+        const balance = await erc20.balanceOf(account);
+        set_ercBalance(balance);
+        const earned = await contract.earned(account);
+        set_sproutEarned(earned);
+        const staked = await contract.balanceOf(account);
+        set_amountStaked(staked);
+      }
+
+
+
+    }
+
+    // fix for updating after wallet login
+    if (account && first_loop == 0)
+    {
+      set_first_loop(1);
+      updateUIStates();
+    }
+
+    // schedule every 15 sec refresh
+    const timer = setInterval(() => {
+      if (account)
+      {
+        updateUIStates()
+      }
+
+    }, 3000);
+
+    // clearing interval
+    return () => clearInterval(timer);
+  }, [ account, donation_contract, erc20, contract, poolAddress] );
+
 
   const callExit = async () => {
     try {
@@ -161,14 +188,14 @@ const StakingModal = ({
               <div className="flex flex-col items-center content-box py-12">
                 <p className="text-white text-xl mt-2">Donation Rate</p>
                 <p className="text-white text-lg mt-2">
-                  {(seedethrate.value && format_friendly(seedethrate.value, 4)) ||
+                  {(seedethrate.value && format_friendly(seedethrate, 4)) ||
                   "0.0000"}
                 </p>
                 <p className="text-white text-lg mt-2">
                   SEED / ETH
                 </p>
                 <p className="text-white text-xl mt-6">SEED remaining</p>
-                <p className="text-white text-lg mt-1">{(donationremaining.value && format_friendly(donationremaining.value, 4)) ||
+                <p className="text-white text-lg mt-1">{(donationremaining && format_friendly(donationremaining, 4)) ||
                 "0.0000"}</p>
                 <p className="text-white text-center text-xl mt-6">DONATIONS to</p>
                 <p className="text-white text-center text-md mt-1">350.org</p>
@@ -249,7 +276,7 @@ const StakingModal = ({
               <div className="flex flex-col items-center content-box py-12">
                 <img src="/sprout_logo.png" alt="sprout-logo" />
                 <p className="text-white text-lg mt-2">
-                  {(sproutEarned?.value && formatEther(sproutEarned?.value)) ||
+                  {(sproutEarned && formatEther(sproutEarned)) ||
                   "0.0000"}
                 </p>
                 <p className="text-white text-md mt-1 mb-16">SEED Earned</p>
@@ -260,13 +287,13 @@ const StakingModal = ({
               <div className="flex flex-col items-center content-box py-12 px-4">
                 <img src={`/${tokenIconPath}`} alt={`${tokenName} icon`} />
                 <p className="text-white text-lg mt-2">
-                  {(amountStaked?.value && formatEther(amountStaked?.value)) ||
+                  {(amountStaked && formatEther(amountStaked)) ||
                   "0.0000"}
                 </p>
                 <p className="text-white text-md mt-1 mb-16">{`${tokenName} Staked`}</p>
                 {account && (
                     <p className="text-white text-md absolute erc-balance">{`Balance: ${
-                        ercBalance?.value && formatEther(ercBalance?.value || "0.000")
+                        ercBalance && formatEther(ercBalance || "0.000")
                     }`}</p>
                 )}
                 {!hasSetAllowance ? (
