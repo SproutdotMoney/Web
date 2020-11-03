@@ -7,7 +7,7 @@ export const GARDEN_OPTIONS = [
     tokenGardenName: "Chainlink Fence",
     tokenIconPath: "link-emoji.png",
     descriptionTop: "Deposit LINK, earn SEED",
-    poolAddress: "0x434037006b84b9d1c37b0c89caa33c225a4ab8f7",
+    poolAddress: "0xa1fdacfdc1c32facd47173e54c8285fa2d813b79",
     tokenAddress: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
   },
   {
@@ -15,7 +15,7 @@ export const GARDEN_OPTIONS = [
     tokenGardenName: "Magical Springs",
     tokenIconPath: "unicorn-emoji.png",
     descriptionTop: "Deposit UNI, earn SEED",
-    poolAddress: "0x434037006b84b9d1c37b0c89caa33c225a4ab8f7",
+    poolAddress: "0xa1fdacfdc1c32facd47173e54c8285fa2d813b79",
     tokenAddress: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
   },
   {
@@ -23,7 +23,7 @@ export const GARDEN_OPTIONS = [
     tokenGardenName: "Aavecados",
     tokenIconPath: "avocado-emoji.png",
     descriptionTop: "Deposit LEND, earn SEED",
-    poolAddress: "0x434037006b84b9d1c37b0c89caa33c225a4ab8f7",
+    poolAddress: "0xa1fdacfdc1c32facd47173e54c8285fa2d813b79",
     tokenAddress: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
   },
   {
@@ -31,7 +31,7 @@ export const GARDEN_OPTIONS = [
     tokenGardenName: "WaYFI Gardener",
     tokenIconPath: "woman-farmer-emoji.png",
     descriptionTop: "Deposit YFI, earn SEED",
-    poolAddress: "0x434037006b84b9d1c37b0c89caa33c225a4ab8f7",
+    poolAddress: "0xa1fdacfdc1c32facd47173e54c8285fa2d813b79",
     tokenAddress: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
   },
   {
@@ -39,7 +39,7 @@ export const GARDEN_OPTIONS = [
     tokenGardenName: "Money Tree",
     tokenIconPath: "money-bag-emoji.png",
     descriptionTop: "Deposit DAI, earn SEED",
-    poolAddress: "0x434037006b84b9d1c37b0c89caa33c225a4ab8f7",
+    poolAddress: "0xa1fdacfdc1c32facd47173e54c8285fa2d813b79",
     tokenAddress: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
   },
   {
@@ -47,7 +47,7 @@ export const GARDEN_OPTIONS = [
     tokenGardenName: "Sunny Wether",
     tokenIconPath: "sun-emoji.png",
     descriptionTop: "Deposit WETH, earn SEED",
-    poolAddress: "0x434037006b84b9d1c37b0c89caa33c225a4ab8f7",
+    poolAddress: "0xa1fdacfdc1c32facd47173e54c8285fa2d813b79",
     tokenAddress: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
   },
     // dont use the tokenAddress here since we make an extra modal for donation
