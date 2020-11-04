@@ -56,8 +56,8 @@ export const GARDEN_OPTIONS = [
     tokenGardenName: "Charitable Bounties",
     tokenIconPath: "green-heart_emoji.png",
     descriptionTop: "Donate Ether, earn SEED",
-    poolAddress: "0x511131bf688f94d883628348b0eede12fbc61992",
-    tokenAddress: "0x511131bf688f94d883628348b0eede12fbc61992",
+    poolAddress: "0x1eCd28942d843bBc26213Cf0c33316e423DDC347",
+    tokenAddress: "0x1eCd28942d843bBc26213Cf0c33316e423DDC347",
   },
   {
     tokenName: "SEEDETH_UNILP",
