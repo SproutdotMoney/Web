@@ -37,10 +37,10 @@ const StakingModal = ({
 
   const erc20 = useErc20Contract(tokenAddress);
 
-  const allowance = useAsync(async () => {
-    const allowance = await erc20.allowance(account, poolAddress);
-    return allowance;
-  }, [erc20]);
+  //const allowance = useAsync(async () => {
+  //  const allowance = await erc20.allowance(account, poolAddress);
+  //  return allowance;
+  //}, [erc20]);
 
   //set constants for later displaying
   const [first_loop, set_first_loop] = useState(0);
@@ -50,7 +50,10 @@ const StakingModal = ({
   const [sproutEarned, set_sproutEarned] = useState(0);
   const [amountStaked, set_amountStaked] = useState(0);
 
-  const hasSetAllowance = allowance?.value?._hex === "0x00" ? false : true;
+  const [allowance, set_allowance] = useState(0);
+  const [hasSetAllowance, set_hasSetAllowance] = useState(false);
+
+  //const hasSetAllowance = allowance?.value?._hex === "0x00" ? false : true;
 
   // effect hook for updating data
   useEffect(() => {
@@ -67,6 +70,10 @@ const StakingModal = ({
       }
       else
       {
+        const allowance = await erc20.allowance(account, poolAddress);
+        const hasSetAllowance = allowance._hex === "0x00" ? false : true;
+        set_hasSetAllowance(hasSetAllowance);
+
         const balance = await erc20.balanceOf(account);
         set_ercBalance(balance);
         const earned = await contract.earned(account);
