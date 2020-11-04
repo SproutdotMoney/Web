@@ -15,7 +15,7 @@ export const GARDEN_OPTIONS = [
     tokenGardenName: "Magical Springs",
     tokenIconPath: "unicorn-emoji.png",
     descriptionTop: "Deposit UNI, earn SEED",
-    poolAddress: "0x99e82eb616d2bc254d8b002fafc852c93f8ef156",
+    poolAddress: "0xcbd05cbaf4a7a052581a31af7f7ace0cdf5f337c",
     tokenAddress: "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
   },
   {
