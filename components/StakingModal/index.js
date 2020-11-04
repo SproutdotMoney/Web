@@ -188,7 +188,7 @@ const StakingModal = ({
               <div className="flex flex-col items-center content-box py-12">
                 <p className="text-white text-xl mt-2">Donation Rate</p>
                 <p className="text-white text-lg mt-2">
-                  {(seedethrate.value && format_friendly(seedethrate, 4)) ||
+                  {(seedethrate && format_friendly(seedethrate, 4)) ||
                   "0.0000"}
                 </p>
                 <p className="text-white text-lg mt-2">
