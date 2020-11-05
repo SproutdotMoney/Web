@@ -1,5 +1,6 @@
 import { Web3ReactProvider } from "@web3-react/core";
 import Nav from "../components/nav";
+import BottomNav from "../components/bottom_nav";
 import App from "next/app";
 import NProgress from "../components/nprogress";
 import getLibrary from "../lib/getLibrary";
@@ -14,9 +15,12 @@ function SproutApp({ Component, pageProps }) {
         <div className="flex-auto min-w-0 min-h-0 bg-primary">
           <Component {...pageProps} />
         </div>
+        <BottomNav />
       </div>
 
+
       <NProgress />
+
     </Web3ReactProvider>
   );
 }
