@@ -16,13 +16,13 @@ import {ACTIVE_NETWORK} from  "../../constants"
 import {useEffect, useState} from "react";
 
 const StakingModal = ({
-  poolAddress,
-  tokenName,
-  tokenIconPath,
-  tokenAddress,
-  open,
-  setOpen,
-}) => {
+                        poolAddress,
+                        tokenName,
+                        tokenIconPath,
+                        tokenAddress,
+                        open,
+                        setOpen,
+                      }) => {
   const addToast = useToast();
   const { register, handleSubmit } = useForm();
   const contract = usePoolContract(poolAddress);
@@ -110,6 +110,15 @@ const StakingModal = ({
   const callExit = async () => {
     try {
       const { hash } = await contract.exit();
+      await getReceipt(hash, library);
+    } catch (e) {
+      addToast({ body: e.message, type: "error" });
+    }
+  };
+
+  const callRewards = async () => {
+    try {
+      const { hash } = await contract.getReward();
       await getReceipt(hash, library);
     } catch (e) {
       addToast({ body: e.message, type: "error" });
@@ -216,23 +225,23 @@ const StakingModal = ({
                 <p className="text-white text-md mt-6 center">Amount of ETH to donate</p>
 
                 {
-                    <form onSubmit={handleSubmit(callDonate)}>
-                      <div className="my-4 flex justify-around relative sm:my-8">
-                        <Input
-                            ref={register}
-                            id="donatedAmount"
-                            name="donatedAmount"
-                            type="number"
-                            step="0.000000000000000001"
-                            required
-                        />
-                      </div>
-                      <div className="my-4 flex justify-around relative sm:my-8">
-                        <button className="btn">
-                          <p className="capitalize">{`DONATE ${tokenName}`}</p>
-                        </button>
-                      </div>
-                    </form>
+                  <form onSubmit={handleSubmit(callDonate)}>
+                    <div className="my-4 flex justify-around relative sm:my-8">
+                      <Input
+                          ref={register}
+                          id="donatedAmount"
+                          name="donatedAmount"
+                          type="number"
+                          step="0.000000000000000001"
+                          required
+                      />
+                    </div>
+                    <div className="my-4 flex justify-around relative sm:my-8">
+                      <button className="btn">
+                        <p className="capitalize">{`DONATE ${tokenName}`}</p>
+                      </button>
+                    </div>
+                  </form>
                 }
               </div>
             </div>
@@ -280,15 +289,19 @@ const StakingModal = ({
                 onDismiss={setOpen}
             />
             <div className="my-4 flex justify-around relative sm:my-8">
-              <div className="flex flex-col items-center content-box py-12">
+              <div className="flex flex-col flex-wrap items-center content-box py-12">
                 <img src="/sprout_logo.png" alt="sprout-logo" />
                 <p className="text-white text-lg mt-2">
                   {(sproutEarned && formatEther(sproutEarned)) ||
                   "0.0000"}
                 </p>
                 <p className="text-white text-md mt-1 mb-16">SEED Earned</p>
-                <button className="btn" onClick={callExit}>
+                <button className="btn" onClick={callRewards}>
                   <p className="capitalize">HARVEST</p>
+                </button>
+                <p className="mt-2"></p>
+                <button className="btn break-words" onClick={callExit}>
+                  <p className="capitalize break-words">HARVEST+UNSTAKE</p>
                 </button>
               </div>
               <div className="flex flex-col items-center content-box py-12 px-4">
@@ -297,12 +310,13 @@ const StakingModal = ({
                   {(amountStaked && formatEther(amountStaked)) ||
                   "0.0000"}
                 </p>
-                <p className="text-white text-md mt-1 mb-16">{`${tokenName} Staked`}</p>
+                <p className="text-white text-md mt-1 mb-8">{`${tokenName} Staked`}</p>
                 {account && (
-                    <p className="text-white text-md absolute erc-balance">{`Balance: ${
+                    <p className="text-white text-md absolute erc-balance mb-4" >{`Balance: ${
                         ercBalance && formatEther(ercBalance || "0.000")
                     }`}</p>
                 )}
+                <p className="mt-4"></p>
                 {!hasSetAllowance ? (
                     <button
                         className="btn"
@@ -312,7 +326,7 @@ const StakingModal = ({
                     </button>
                 ) : (
                     <form onSubmit={handleSubmit(callStake)}>
-                      <div className="flex flex-row justify-center">
+                      <div className="flex flex-row justify-center mt-6">
                         <Input
                             ref={register}
                             id="stakedAmount"
@@ -321,6 +335,9 @@ const StakingModal = ({
                             step="0.000000000000000001"
                             required
                         />
+                      </div>
+
+                      <div className="flex flex-row justify-center">
                         <button className="btn">
                           <p className="capitalize">{`STAKE ${tokenName}`}</p>
                         </button>
