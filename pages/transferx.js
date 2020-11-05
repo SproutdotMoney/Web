@@ -57,7 +57,7 @@ function Home() {
         values.forEach(function(item, index, array) {
 
             if(item.amount !== null && item.amount !== '') {
-                const temp_amount = BigNumber.from(10).pow(18).mul(item.amount);
+                const temp_amount = parseEther(item.amount);
                 amounts.push(temp_amount);
             }
             else
