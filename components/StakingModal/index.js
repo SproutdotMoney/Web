@@ -316,7 +316,7 @@ const StakingModal = ({
                         ercBalance && formatEther(ercBalance || "0.000")
                     }`}</p>
                 )}
-                <p className="mt-4"></p>
+                <p className="mt-8"></p>
                 {!hasSetAllowance ? (
                     <button
                         className="btn"
