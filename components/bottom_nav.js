@@ -13,7 +13,7 @@ const BottomNav = () => {
                   Discord
                 </a>
                 <a  target="_blank" href="https://defipulse.com/">
-                    <img src="/defi-pulse.png" alt="defi pulse" className="object-scale-down h-16 w-full" />
+                    <img src="/defi-pulse.png" alt="defi pulse" className="object-scale-down h-16 inline" />
                 </a>
             </div>
         </footer>
