@@ -8,6 +8,7 @@ const GardenCard = ({
   descriptionTop,
   poolAddress,
   tokenAddress,
+  open
 }) => {
   const [stakingModalOpen, setStakingModalOpen] = useState(false);
 
@@ -30,6 +31,17 @@ const GardenCard = ({
                 {tokenGardenName}
               </h2>
               <p className="text-md text-white">{descriptionTop}</p>
+
+              {(open === false) ?
+                  (
+                      <p className='text-sm text-center text-red'>Warning this pool is open for deposits but not currently staking for rewards</p>
+                  )
+              :
+                  (
+                      <p className="text-md text-white"></p>
+                  )
+              }
+
             </div>
           </header>
           <div className="absolute harvest-button">
