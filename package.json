@@ -3,18 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3001",
     "build": "next build",
     "export": "next export",
     "start": "next start",
     "deploy": "npm run build && npm run export"
   },
   "dependencies": {
-    "@ethersproject/address": "^5.0.3",
-    "@ethersproject/bignumber": "^5.0.3",
-    "@ethersproject/contracts": "^5.0.3",
-    "@ethersproject/providers": "^5.0.7",
-    "@ethersproject/units": "^5.0.3",
+    "@ethersproject/address": "5.0.5",
+    "@ethersproject/bignumber": "5.0.8",
+    "@ethersproject/contracts": "5.0.5",
+    "@ethersproject/providers": "5.0.14",
+    "@ethersproject/units": "5.0.6",
     "@next/bundle-analyzer": "^9.5.3",
     "@reach/dialog": "^0.11.2",
     "@reach/menu-button": "^0.11.2",
@@ -53,6 +53,6 @@
   "devDependencies": {
     "dotenv": "^8.2.0",
     "postcss-preset-env": "^6.7.0",
-    "prettier": "^2.1.1"
+    "prettier": "2.1.1"
   }
 }
