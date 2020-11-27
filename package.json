@@ -10,7 +10,11 @@
     "deploy": "npm run build && npm run export"
   },
   "dependencies": {
-    "ethers": "5.0.19",
+    "@ethersproject/address": "^5.0.3",
+    "@ethersproject/bignumber": "^5.0.3",
+    "@ethersproject/contracts": "^5.0.3",
+    "@ethersproject/providers": "^5.0.7",
+    "@ethersproject/units": "^5.0.3",
     "@next/bundle-analyzer": "^9.5.3",
     "@reach/dialog": "^0.11.2",
     "@reach/menu-button": "^0.11.2",
