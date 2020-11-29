@@ -9,7 +9,7 @@ export const GARDEN_OPTIONS = [
     descriptionTop: "Deposit LINK, earn SEED",
     poolAddress: "0xd0896D4E42d46F8df9E05D65be4f23c374027b3F",
     tokenAddress: "0x514910771af9ca656af840dff83e8264ecf986ca",
-    open : false
+    open : true
   },
   {
     tokenName: "UNI",
@@ -18,7 +18,7 @@ export const GARDEN_OPTIONS = [
     descriptionTop: "Deposit UNI, earn SEED",
     poolAddress: "0xcbd05cbaf4a7a052581a31af7f7ace0cdf5f337c",
     tokenAddress: "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
-    open : false
+    open : true
   },
   {
     tokenName: "LEND",
@@ -27,7 +27,7 @@ export const GARDEN_OPTIONS = [
     descriptionTop: "Deposit LEND, earn SEED",
     poolAddress: "0xaa4fac4b05b443d1d369ee6576e0838e78569e7c",
     tokenAddress: "0x80fB784B7eD66730e8b1DBd9820aFD29931aab03",
-    open : false
+    open : true
   },
   {
     tokenName: "YFI",
@@ -36,7 +36,7 @@ export const GARDEN_OPTIONS = [
     descriptionTop: "Deposit YFI, earn SEED",
     poolAddress: "0x99e82eb616d2bc254d8b002fafc852c93f8ef156",
     tokenAddress: "0x0bc529c00C6401aEF6D220BE8C6Ea1667F6Ad93e",
-    open : false
+    open : true
   },
   {
     tokenName: "DAI",
@@ -54,7 +54,7 @@ export const GARDEN_OPTIONS = [
     descriptionTop: "Deposit WETH, earn SEED",
     poolAddress: "0xe8d59f9e9787be991d3759d18851794200a38e57",
     tokenAddress: "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
-    open : false
+    open : true
   },
     // dont use the tokenAddress here since we make an extra modal for donation
   {
